@@ -99,32 +99,32 @@ impl WebHandle {
                             let canvas_ready = element.dyn_ref::<web_sys::HtmlCanvasElement>().is_some();
                             log::info!("Retrying... Canvas ready status: {}", canvas_ready);
                             if canvas_ready {
-                                break;
+                                log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
+                                let web_options = eframe::WebOptions::default();
+                                match self.runner
+                                    .start(
+                                        canvas_id,
+                                        web_options,
+                                        Box::new(|cc| Box::new(MyApp::default())),
+                                    )
+                                    .await {
+                                    Ok(_) => {
+                                        log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
+                                        return Ok(());
+                                    },
+                                    Err(e) => {
+                                        log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
+                                        log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
+                                        log::info!("Current DOM content at the time of error: {}", body.inner_html());
+                                        return Err(e);
+                                    }
+                                }
                             }
                         }
                         retries += 1;
                         if retries >= 5 {
                             log::error!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id);
                             return Err(wasm_bindgen::JsValue::from_str(&format!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id)));
-                        }
-                    }
-                    let web_options = eframe::WebOptions::default();
-                    match self.runner
-                        .start(
-                            canvas_id,
-                            web_options,
-                            Box::new(|cc| Box::new(MyApp::default())),
-                        )
-                        .await {
-                        Ok(_) => {
-                            log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
-                            Ok(())
-                        },
-                        Err(e) => {
-                            log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
-                            log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
-                            log::info!("Current DOM content at the time of error: {}", body.inner_html());
-                            Err(e)
                         }
                     }
                 }
