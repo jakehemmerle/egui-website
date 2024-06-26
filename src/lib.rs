@@ -81,7 +81,7 @@ impl WebHandle {
                 } else {
                     log::error!("Canvas with id: {} is not ready for rendering. Retrying...", canvas_id);
                     // Retry mechanism using a loop with a delay to ensure the canvas is ready
-                    let retry_delay = 2000; // milliseconds
+                    let retry_delay = 1000; // milliseconds
                     let window = web_sys::window().unwrap();
                     let mut retries = 0;
                     loop {
@@ -125,7 +125,7 @@ impl WebHandle {
                             }
                         }
                         retries += 1;
-                        if retries >= 5 {
+                        if retries >= 10 {
                             log::error!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id);
                             return Err(wasm_bindgen::JsValue::from_str(&format!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id)));
                         }
