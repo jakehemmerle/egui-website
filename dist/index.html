@@ -20,7 +20,9 @@
             height: 100%;
         }
     </style>
-</head>
+
+<link rel="modulepreload" href="/egui_website-223241bea809ea04.js" crossorigin=anonymous integrity="sha384-lfduAhpFRncT+GDrTwSM+hnCAnWyw2iKE7aX3NiowQq6cp440q9oAcvb5aV+RP0c">
+<link rel="preload" href="/egui_website-223241bea809ea04_bg.wasm" crossorigin=anonymous integrity="sha384-/gv/PrkYsqEXWhnXEDNLC5f94R1CEmSEx3Yhu52P+vvXZm19+7B4DDY66bd5gXBb" as="fetch" type="application/wasm"></head>
 <body>
     <div id="the_canvas_id"></div>
     <script>
@@ -43,7 +45,8 @@
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
-                await init('./egui_website_bg.wasm');
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
+                await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
             } else {
@@ -51,5 +54,16 @@
             }
         });
     </script>
-</body>
+
+<script type="module" nonce="GBHC1hOoPLym0zeftY8VNg==">
+import init, * as bindings from '/egui_website-223241bea809ea04.js';
+const wasm = await init('/egui_website-223241bea809ea04_bg.wasm');
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script></body>
 </html>
