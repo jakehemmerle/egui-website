@@ -42,6 +42,12 @@ impl WebHandle {
         let document = window.document().unwrap();
         let body = document.body().unwrap();
         log::info!("Current DOM content: {}", body.inner_html());
+
+        // Add a delay to ensure the canvas element is fully ready
+        wasm_bindgen_futures::JsFuture::from(js_sys::Promise::new(&mut |resolve, _| {
+            window.set_timeout_with_callback_and_timeout_and_arguments_0(&resolve, 1000).unwrap();
+        })).await.unwrap();
+
         let canvas = document.get_element_by_id(canvas_id);
         match canvas {
             Some(element) => {
@@ -62,7 +68,6 @@ impl WebHandle {
                     Err(e) => {
                         log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
                         log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
-                        log::info!("WebRunner state at the time of error: {:?}", self.runner);
                         Err(e)
                     }
                 }
