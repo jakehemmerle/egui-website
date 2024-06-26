@@ -74,8 +74,19 @@ impl WebHandle {
                         }
                     }
                 } else {
-                    log::error!("Canvas with id: {} is not ready for rendering", canvas_id);
-                    Err(wasm_bindgen::JsValue::from_str(&format!("Canvas with id: {} is not ready for rendering", canvas_id)))
+                    log::error!("Canvas with id: {} is not ready for rendering. Retrying...");
+                    // Retry after a delay to ensure the canvas is ready
+                    let retry_delay = 500; // milliseconds
+                    let window = web_sys::window().unwrap();
+                    let promise = js_sys::Promise::new(&mut |resolve, _| {
+                        let closure = Closure::wrap(Box::new(move || {
+                            resolve.call0(&JsValue::NULL).unwrap();
+                        }) as Box<dyn Fn()>);
+                        window.set_timeout_with_callback_and_timeout_and_arguments_0(closure.as_ref().unchecked_ref(), retry_delay).unwrap();
+                        closure.forget();
+                    });
+                    wasm_bindgen_futures::JsFuture::from(promise).await.unwrap();
+                    self.start(canvas_id).await
                 }
             },
             None => {
