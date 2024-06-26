@@ -44,7 +44,7 @@
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
                 // Introduce a slight delay to ensure the canvas is fully ready
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
