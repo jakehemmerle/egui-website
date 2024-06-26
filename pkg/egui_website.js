@@ -295,6 +295,18 @@ export class WebHandle {
             throw new Error(`Failed to find canvas with id "${canvas_id}"`);
         }
         console.log(`Successfully found canvas with id "${canvas_id}"`);
+
+        // Use MutationObserver to ensure the canvas is fully loaded and available
+        await new Promise((resolve) => {
+            const observer = new MutationObserver((mutations, obs) => {
+                if (document.getElementById(canvas_id)) {
+                    obs.disconnect();
+                    resolve();
+                }
+            });
+            observer.observe(document, { childList: true, subtree: true });
+        });
+
         const ptr0 = passStringToWasm0(canvas_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ret = wasm.webhandle_start(this.__wbg_ptr, ptr0, len0);
