@@ -62,7 +62,9 @@ impl WebHandle {
                     log::info!("Canvas element outer HTML: {}", element.outer_html());
 
                     // Ensure the canvas is fully loaded and ready for rendering
+                    log::info!("Checking if canvas is ready for rendering...");
                     let canvas_ready = element.dyn_ref::<web_sys::HtmlCanvasElement>().is_some();
+                    log::info!("Canvas ready status: {}", canvas_ready);
                     if canvas_ready {
                         log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
                         let web_options = eframe::WebOptions::default();
@@ -90,6 +92,7 @@ impl WebHandle {
                         let retry_delay = 1000; // milliseconds
                         let window = web_sys::window().unwrap();
                         loop {
+                            log::info!("Waiting for {} milliseconds before retrying...", retry_delay);
                             let promise = js_sys::Promise::new(&mut |resolve, _| {
                                 let closure = Closure::wrap(Box::new(move || {
                                     resolve.call0(&JsValue::NULL).unwrap();
@@ -104,6 +107,7 @@ impl WebHandle {
                                 log::info!("Retrying... Canvas element attribute names: {:?}", element.get_attribute_names());
                                 log::info!("Retrying... Canvas element outer HTML: {}", element.outer_html());
                                 let canvas_ready = element.dyn_ref::<web_sys::HtmlCanvasElement>().is_some();
+                                log::info!("Retrying... Canvas ready status: {}", canvas_ready);
                                 if canvas_ready {
                                     break;
                                 }
