@@ -37,6 +37,7 @@
         }
     </script>
     <script type="module">
+        console.log('Before importing egui_website.js');
         import init, { WebHandle } from './egui_website.js';
         window.addEventListener('load', async function() {
             console.log('Window load event triggered');
