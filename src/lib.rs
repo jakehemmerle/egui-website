@@ -37,13 +37,23 @@ impl WebHandle {
 
     #[wasm_bindgen]
     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
-        self.runner
+        log::info!("Attempting to start egui application with canvas_id: {}", canvas_id);
+        match self.runner
             .start(
                 canvas_id,
                 eframe::WebOptions::default(),
                 Box::new(|cc| Box::new(MyApp::default())),
             )
-            .await
+            .await {
+                Ok(_) => {
+                    log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
+                    Ok(())
+                },
+                Err(e) => {
+                    log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
+                    Err(e)
+                }
+            }
     }
 
     #[wasm_bindgen]
