@@ -39,8 +39,11 @@ impl WebHandle {
     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
         log::info!("Attempting to start egui application with canvas_id: {}", canvas_id);
         let window = web_sys::window().unwrap();
+        log::info!("Successfully retrieved window object");
         let document = window.document().unwrap();
+        log::info!("Successfully retrieved document object");
         let body = document.body().unwrap();
+        log::info!("Successfully retrieved body element");
         log::info!("Current DOM content: {}", body.inner_html());
 
         let canvas = document.get_element_by_id(canvas_id);
@@ -53,8 +56,11 @@ impl WebHandle {
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
                 if let Some(canvas_element) = element.dyn_ref::<web_sys::HtmlCanvasElement>() {
+                    log::info!("Successfully cast element to HtmlCanvasElement");
                     if let (Some(inner_width), Some(inner_height)) = (window.inner_width().ok(), window.inner_height().ok()) {
+                        log::info!("Successfully retrieved window dimensions");
                         if let (Some(width), Some(height)) = (inner_width.as_f64(), inner_height.as_f64()) {
+                            log::info!("Successfully converted window dimensions to f64");
                             canvas_element.set_width(width as u32);
                             canvas_element.set_height(height as u32);
                         } else {
