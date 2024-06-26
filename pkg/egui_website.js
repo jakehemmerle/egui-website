@@ -276,37 +276,41 @@ export class WebHandle {
         wasm.__wbg_webhandle_free(ptr);
     }
     /**
-    */
+     */
     constructor() {
         const ret = wasm.webhandle_new();
         this.__wbg_ptr = ret >>> 0;
         return this;
     }
     /**
-    * @param {string} canvas_id
-    * @returns {Promise<void>}
-    */
-    start(canvas_id) {
+     * @param {string} canvas_id
+     * @returns {Promise<void>}
+     */
+    async start(canvas_id) {
+        const canvas = document.getElementById(canvas_id);
+        if (!canvas) {
+            throw new Error(`Failed to find canvas with id "${canvas_id}"`);
+        }
         const ptr0 = passStringToWasm0(canvas_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ret = wasm.webhandle_start(this.__wbg_ptr, ptr0, len0);
         return takeObject(ret);
     }
     /**
-    */
+     */
     destroy() {
         wasm.webhandle_destroy(this.__wbg_ptr);
     }
     /**
-    * @returns {boolean}
-    */
+     * @returns {boolean}
+     */
     has_panicked() {
         const ret = wasm.webhandle_has_panicked(this.__wbg_ptr);
         return ret !== 0;
     }
     /**
-    * @returns {string | undefined}
-    */
+     * @returns {string | undefined}
+     */
     panic_message() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
