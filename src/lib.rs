@@ -53,8 +53,13 @@ impl WebHandle {
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
                 if let Some(canvas_element) = element.dyn_ref::<web_sys::HtmlCanvasElement>() {
-                    canvas_element.set_width(window.inner_width().unwrap().as_f64().unwrap() as u32);
-                    canvas_element.set_height(window.inner_height().unwrap().as_f64().unwrap() as u32);
+                    if let (Some(inner_width), Some(inner_height)) = (window.inner_width(), window.inner_height()) {
+                        canvas_element.set_width(inner_width.as_f64().unwrap() as u32);
+                        canvas_element.set_height(inner_height.as_f64().unwrap() as u32);
+                    } else {
+                        log::error!("Failed to get window dimensions");
+                        return Err(wasm_bindgen::JsValue::from_str("Failed to get window dimensions"));
+                    }
                     log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
                     let web_options = eframe::WebOptions::default();
                     match self.runner
