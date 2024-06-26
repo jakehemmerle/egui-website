@@ -187,6 +187,7 @@ impl eframe::App for MyApp {
         ctx.set_visuals(if *dark_mode { dark_theme } else { light_theme });
 
         // Render the Game of Life in the background
+        log::info!("Rendering Game of Life background...");
         game_of_life.update(ctx, _frame);
 
         // Render the main content on top of the Game of Life background
@@ -196,6 +197,7 @@ impl eframe::App for MyApp {
             // Theme toggle button
             if ui.button("Toggle Theme").clicked() {
                 *dark_mode = !*dark_mode;
+                log::info!("Theme toggled. Dark mode: {}", dark_mode);
             }
 
             ui.horizontal(|ui| {
@@ -233,5 +235,7 @@ impl eframe::App for MyApp {
                 ui.hyperlink("https://www.instagram.com/sends.and.friends/");
             });
         });
+        log::info!("Main content rendered.");
+        ctx.request_repaint();
     }
 }
