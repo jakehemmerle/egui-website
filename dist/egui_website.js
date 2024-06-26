@@ -397,13 +397,16 @@ async function __wbg_load(module, imports) {
 }
 
 async function init(input) {
+    console.log('Initializing WebAssembly module...');
     if (typeof input === 'undefined') {
         input = new URL('egui_website_bg.wasm', window.location.origin);
+        console.log('Using default .wasm file path:', input.href);
     }
     const imports = __wbg_get_imports();
     const { instance, module } = await __wbg_load(await input, imports);
     wasm = instance.exports;
     init.__wbindgen_wasm_module = module;
+    console.log('WebAssembly module initialized successfully.');
     return wasm;
 }
 
