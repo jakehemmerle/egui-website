@@ -64,6 +64,7 @@ impl WebHandle {
                     },
                     Err(e) => {
                         log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
+                        log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
                         Err(e)
                     }
                 }
