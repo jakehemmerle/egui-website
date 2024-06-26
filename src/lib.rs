@@ -53,7 +53,7 @@ impl WebHandle {
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
                 if let Some(canvas_element) = element.dyn_ref::<web_sys::HtmlCanvasElement>() {
-                    if let (Some(inner_width), Some(inner_height)) = (window.inner_width(), window.inner_height()) {
+                    if let (Some(inner_width), Some(inner_height)) = (window.inner_width().ok(), window.inner_height().ok()) {
                         canvas_element.set_width(inner_width.as_f64().unwrap() as u32);
                         canvas_element.set_height(inner_height.as_f64().unwrap() as u32);
                     } else {
