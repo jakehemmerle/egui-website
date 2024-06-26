@@ -89,7 +89,7 @@ impl WebHandle {
                     } else {
                         log::error!("Canvas with id: {} is not ready for rendering. Retrying...", canvas_id);
                         // Retry mechanism using a loop with a delay to ensure the canvas is ready
-                        let retry_delay = 1000; // milliseconds
+                        let retry_delay = 2000; // milliseconds
                         let window = web_sys::window().unwrap();
                         loop {
                             log::info!("Waiting for {} milliseconds before retrying...", retry_delay);
