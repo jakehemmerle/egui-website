@@ -38,7 +38,7 @@
     </script>
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
-        document.addEventListener('DOMContentLoaded', async function() {
+        window.addEventListener('load', async function() {
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
