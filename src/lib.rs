@@ -113,7 +113,7 @@ impl WebHandle {
                             log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
                             log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
                             log::info!("Current DOM content at the time of error: {}", body.inner_html());
-                            Err(e)
+                            Err(wasm_bindgen::JsValue::from_str(&format!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e)))
                         }
                     }
                 } else {
