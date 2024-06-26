@@ -46,10 +46,23 @@
                 // Ensure the canvas is fully ready for rendering
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                await init();
-                const handle = new WebHandle();
-                await handle.start('the_canvas_id');
+
+                const observer = new MutationObserver(async (mutationsList, observer) => {
+                    for (const mutation of mutationsList) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'width') {
+                            console.log('Canvas width attribute changed:', canvas.width);
+                            observer.disconnect();
+                            await init();
+                            const handle = new WebHandle();
+                            await handle.start('the_canvas_id');
+                        }
+                    }
+                });
+
+                observer.observe(canvas, { attributes: true });
+
+                // Trigger a mutation by setting the width attribute
+                canvas.setAttribute('width', canvas.width);
             } else {
                 console.error('Failed to find canvas with id "the_canvas_id"');
             }
