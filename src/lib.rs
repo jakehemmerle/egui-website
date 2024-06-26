@@ -53,8 +53,8 @@ impl WebHandle {
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
                 let canvas_element = element.dyn_ref::<web_sys::HtmlCanvasElement>().unwrap();
-                canvas_element.set_width(window.inner_width().unwrap() as u32);
-                canvas_element.set_height(window.inner_height().unwrap() as u32);
+                canvas_element.set_width(window.inner_width().unwrap().as_f64().unwrap() as u32);
+                canvas_element.set_height(window.inner_height().unwrap().as_f64().unwrap() as u32);
                 let canvas_ready = canvas_element.is_instance_of::<web_sys::HtmlCanvasElement>();
                 log::info!("Canvas ready status: {}", canvas_ready);
                 if canvas_ready {
