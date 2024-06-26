@@ -74,9 +74,9 @@ impl WebHandle {
                         }
                     }
                 } else {
-                    log::error!("Canvas with id: {} is not ready for rendering. Retrying...");
+                    log::error!("Canvas with id: {} is not ready for rendering. Retrying...", canvas_id);
                     // Retry after a delay to ensure the canvas is ready
-                    let retry_delay = 500; // milliseconds
+                    let retry_delay = 1000; // milliseconds
                     let window = web_sys::window().unwrap();
                     let promise = js_sys::Promise::new(&mut |resolve, _| {
                         let closure = Closure::wrap(Box::new(move || {
