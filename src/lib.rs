@@ -50,6 +50,7 @@ impl WebHandle {
                 log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
                 log::info!("Canvas element outer HTML: {}", element.outer_html());
                 log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
+                log::info!("WebOptions: {:?}", eframe::WebOptions::default());
                 match self.runner
                     .start(
                         canvas_id,
