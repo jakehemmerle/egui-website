@@ -80,8 +80,9 @@ impl WebHandle {
                     // Retry mechanism using a loop with a delay to ensure the canvas is ready
                     let retry_delay = 2000; // milliseconds
                     let window = web_sys::window().unwrap();
+                    let mut retries = 0;
                     loop {
-                        log::info!("Waiting for {} milliseconds before retrying...", retry_delay);
+                        log::info!("Waiting for {} milliseconds before retrying... Attempt: {}", retry_delay, retries + 1);
                         let promise = js_sys::Promise::new(&mut |resolve, _| {
                             let closure = Closure::wrap(Box::new(move || {
                                 resolve.call0(&JsValue::NULL).unwrap();
@@ -100,6 +101,11 @@ impl WebHandle {
                             if canvas_ready {
                                 break;
                             }
+                        }
+                        retries += 1;
+                        if retries >= 5 {
+                            log::error!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id);
+                            return Err(wasm_bindgen::JsValue::from_str(&format!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id)));
                         }
                     }
                     let web_options = eframe::WebOptions::default();
