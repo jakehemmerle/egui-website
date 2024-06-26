@@ -32,7 +32,7 @@ impl epi::App for MyApp {
         ctx.set_visuals(if *dark_mode { dark_theme } else { light_theme });
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Welcome to Jake Hemmerle's Personal Website");
+            ui.heading("Welcome to My Personal Website");
 
             // Theme toggle button
             if ui.button("Toggle Theme").clicked() {
@@ -41,27 +41,27 @@ impl epi::App for MyApp {
 
             ui.horizontal(|ui| {
                 ui.label("Blockchain and Rust Work:");
-                ui.label("Jake has been working on various blockchain projects using Rust. He has contributed to several open-source projects and has a deep understanding of blockchain technology.");
+                ui.label("I have been working on various blockchain projects using Rust. I have contributed to several open-source projects and have a deep understanding of blockchain technology.");
             });
 
             ui.horizontal(|ui| {
                 ui.label("WebAssembly Projects:");
-                ui.label("Jake has developed multiple WebAssembly projects, showcasing his expertise in this area. He has created efficient and high-performance applications using WebAssembly.");
+                ui.label("I have developed multiple WebAssembly projects, showcasing my expertise in this area. I have created efficient and high-performance applications using WebAssembly.");
             });
 
             ui.horizontal(|ui| {
                 ui.label("BASE Jumping:");
-                ui.label("Jake is an avid BASE jumper and enjoys the thrill of this extreme sport. He has completed numerous jumps and continues to pursue this passion.");
+                ui.label("I am an avid BASE jumper and enjoy the thrill of this extreme sport. I have completed numerous jumps and continue to pursue this passion.");
             });
 
             ui.horizontal(|ui| {
                 ui.label("Reading List:");
-                ui.label("Jake is an avid reader and enjoys exploring various genres. He frequently updates his reading list and shares his thoughts on the books he reads.");
+                ui.label("I am an avid reader and enjoy exploring various genres. I frequently update my reading list and share my thoughts on the books I read.");
             });
 
             ui.horizontal(|ui| {
                 ui.label("Blog Posts:");
-                ui.label("Jake writes blog posts on various topics, including technology, personal experiences, and more. Stay tuned for his latest updates.");
+                ui.label("I write blog posts on various topics, including technology, personal experiences, and more. Stay tuned for my latest updates.");
             });
 
             ui.horizontal(|ui| {
