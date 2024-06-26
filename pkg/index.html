@@ -43,7 +43,7 @@
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Increase delay before initializing the WebAssembly module
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
