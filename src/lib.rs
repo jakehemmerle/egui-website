@@ -49,25 +49,33 @@ impl WebHandle {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
                 log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
                 log::info!("Canvas element outer HTML: {}", element.outer_html());
-                log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
-                let web_options = eframe::WebOptions::default();
-                match self.runner
-                    .start(
-                        canvas_id,
-                        web_options,
-                        Box::new(|cc| Box::new(MyApp::default())),
-                    )
-                    .await {
-                    Ok(_) => {
-                        log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
-                        Ok(())
-                    },
-                    Err(e) => {
-                        log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
-                        log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
-                        log::info!("Current DOM content at the time of error: {}", body.inner_html());
-                        Err(e)
+
+                // Ensure the canvas is fully loaded and ready for rendering
+                let canvas_ready = element.dyn_ref::<web_sys::HtmlCanvasElement>().is_some();
+                if canvas_ready {
+                    log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
+                    let web_options = eframe::WebOptions::default();
+                    match self.runner
+                        .start(
+                            canvas_id,
+                            web_options,
+                            Box::new(|cc| Box::new(MyApp::default())),
+                        )
+                        .await {
+                        Ok(_) => {
+                            log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
+                            Ok(())
+                        },
+                        Err(e) => {
+                            log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
+                            log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
+                            log::info!("Current DOM content at the time of error: {}", body.inner_html());
+                            Err(e)
+                        }
                     }
+                } else {
+                    log::error!("Canvas with id: {} is not ready for rendering", canvas_id);
+                    Err(wasm_bindgen::JsValue::from_str(&format!("Canvas with id: {} is not ready for rendering", canvas_id)))
                 }
             },
             None => {
