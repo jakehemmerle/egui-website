@@ -69,7 +69,7 @@ impl WebHandle {
         log::info!("Current DOM content: {}", body.inner_html());
 
         let canvas = document.get_element_by_id(canvas_id);
-        log::info!("Attempted to retrieve canvas element with id: {}", canvas_id);
+        log::info!("Attempting to retrieve canvas element with id: {}", canvas_id);
         match canvas {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
@@ -86,6 +86,7 @@ impl WebHandle {
                             log::info!("Successfully converted window dimensions to f64");
                             canvas_element.set_width(width as u32);
                             canvas_element.set_height(height as u32);
+                            log::info!("Successfully set canvas dimensions to width: {} and height: {}", width, height);
                         } else {
                             log::error!("Failed to convert window dimensions to f64");
                             return Err(wasm_bindgen::JsValue::from_str("Failed to convert window dimensions to f64"));
