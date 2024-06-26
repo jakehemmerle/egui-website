@@ -287,10 +287,14 @@ export class WebHandle {
      * @returns {Promise<void>}
      */
     async start(canvas_id) {
+        console.log(`Attempting to find canvas with id "${canvas_id}"`);
         const canvas = document.getElementById(canvas_id);
         if (!canvas) {
+            console.error(`Failed to find canvas with id "${canvas_id}"`);
+            console.log("Current DOM content:", document.body.innerHTML);
             throw new Error(`Failed to find canvas with id "${canvas_id}"`);
         }
+        console.log(`Successfully found canvas with id "${canvas_id}"`);
         const ptr0 = passStringToWasm0(canvas_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ret = wasm.webhandle_start(this.__wbg_ptr, ptr0, len0);
