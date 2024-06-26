@@ -397,6 +397,7 @@ async function __wbg_load(module, imports) {
 }
 
 async function init(input) {
+    console.log('init function called');
     console.log('Initializing WebAssembly module...');
     if (typeof input === 'undefined') {
         input = new URL('egui_website_bg.wasm', window.location.origin);
