@@ -1,0 +1,5 @@
+/*
+  Set the correct MIME type for WebAssembly files
+*/
+*.wasm
+  Content-Type: application/wasm
