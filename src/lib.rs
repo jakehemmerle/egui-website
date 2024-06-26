@@ -51,7 +51,6 @@ impl WebHandle {
                 log::info!("Canvas element outer HTML: {}", element.outer_html());
                 log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
                 let web_options = eframe::WebOptions::default();
-                log::info!("WebOptions: {:?}", web_options);
                 match self.runner
                     .start(
                         canvas_id,
