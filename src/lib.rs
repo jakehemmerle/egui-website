@@ -1,5 +1,3 @@
-use wasm_bindgen_futures::js_sys::Promise;
-use web_sys::{window, Window, Document, HtmlElement};
 use eframe::{egui};
 use egui::Context;
 
@@ -48,7 +46,7 @@ impl WebHandle {
         match canvas {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
-                log::info!("Canvas element attributes: {:?}", element.attributes());
+                log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
                 wasm_bindgen_futures::JsFuture::from(js_sys::Promise::new(&mut |resolve, _| {
                     let window = web_sys::window().unwrap();
                     window.set_timeout_with_callback_and_timeout_and_arguments_0(&resolve, 500).unwrap();
