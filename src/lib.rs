@@ -52,7 +52,10 @@ impl WebHandle {
         let document = if let Some(document) = window.document() {
             document
         } else {
-            log::error!("Failed to retrieve document object");
+            log::error!("Failed to retrieve document object. Window location: {:?}", window.location().href().ok());
+            if let Some(body) = window.document().and_then(|doc| doc.body()) {
+                log::error!("Window inner HTML: {}", body.inner_html());
+            }
             return Err(wasm_bindgen::JsValue::from_str("Failed to retrieve document object"));
         };
 
