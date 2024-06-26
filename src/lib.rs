@@ -47,6 +47,10 @@ impl WebHandle {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
                 log::info!("Canvas element attributes: {:?}", element.attributes());
+                wasm_bindgen_futures::JsFuture::from(js_sys::Promise::new(&mut |resolve, _| {
+                    let window = web_sys::window().unwrap();
+                    window.set_timeout_with_callback_and_timeout_and_arguments_0(&resolve, 500).unwrap();
+                })).await.unwrap();
                 match self.runner
                     .start(
                         canvas_id,
