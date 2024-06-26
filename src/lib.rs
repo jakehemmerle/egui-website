@@ -47,9 +47,6 @@ impl WebHandle {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
                 log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
-                wasm_bindgen_futures::JsFuture::from(js_sys::Promise::new(&mut |resolve, _| {
-                    resolve.call0(&JsValue::NULL).unwrap();
-                })).await.unwrap();
                 log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
                 match self.runner
                     .start(
