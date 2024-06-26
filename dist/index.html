@@ -20,9 +20,9 @@
             height: 100%;
         }
     </style>
-
-<link rel="modulepreload" href="/egui_website-223241bea809ea04.js" crossorigin=anonymous integrity="sha384-lfduAhpFRncT+GDrTwSM+hnCAnWyw2iKE7aX3NiowQq6cp440q9oAcvb5aV+RP0c">
-<link rel="preload" href="/egui_website-223241bea809ea04_bg.wasm" crossorigin=anonymous integrity="sha384-/gv/PrkYsqEXWhnXEDNLC5f94R1CEmSEx3Yhu52P+vvXZm19+7B4DDY66bd5gXBb" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/egui_website-223241bea809ea04.js" crossorigin=anonymous integrity="sha384-lfduAhpFRncT+GDrTwSM+hnCAnWyw2iKE7aX3NiowQq6cp440q9oAcvb5aV+RP0c">
+    <link rel="preload" href="/egui_website-223241bea809ea04_bg.wasm" crossorigin=anonymous integrity="sha384-/gv/PrkYsqEXWhnXEDNLC5f94R1CEmSEx3Yhu52P+vvXZm19+7B4DDY66bd5gXBb" as="fetch" type="application/wasm">
+</head>
 <body>
     <div id="the_canvas_id"></div>
     <script>
@@ -45,7 +45,6 @@
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
-                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
