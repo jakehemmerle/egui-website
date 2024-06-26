@@ -30,9 +30,11 @@ impl WebHandle {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         eframe::WebLogger::init(log::LevelFilter::Debug).ok();
+        log::info!("Creating WebRunner instance");
         Self {
             runner: eframe::WebRunner::new(),
-        }
+        };
+        log::info!("WebRunner instance created successfully");
     }
 
     #[wasm_bindgen]
@@ -67,6 +69,7 @@ impl WebHandle {
         log::info!("Current DOM content: {}", body.inner_html());
 
         let canvas = document.get_element_by_id(canvas_id);
+        log::info!("Attempted to retrieve canvas element with id: {}", canvas_id);
         match canvas {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
@@ -93,6 +96,7 @@ impl WebHandle {
                     }
                     log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
                     let web_options = eframe::WebOptions::default();
+                    log::info!("WebOptions created: {:?}", web_options);
                     match self.runner
                         .start(
                             canvas_id,
