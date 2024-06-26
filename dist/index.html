@@ -20,14 +20,13 @@
             height: 100%;
         }
     </style>
-    <link rel="preload" href="egui_website-223241bea809ea04_bg.wasm" as="fetch" type="application/wasm">
 </head>
 <body>
     <div id="the_canvas_id"></div>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
@@ -40,21 +39,14 @@
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
         window.addEventListener('load', async function() {
-            console.log('Window load event triggered');
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
                 await init();
-                console.log('WebAssembly module initialized');
                 const handle = new WebHandle();
-                console.log('WebHandle instance created');
-                try {
-                    await handle.start('the_canvas_id');
-                    console.log('WebHandle start method called successfully');
-                } catch (e) {
-                    console.error('WebHandle start method failed:', e);
-                }
+                await handle.start('the_canvas_id');
             } else {
                 console.error('Failed to find canvas with id "the_canvas_id"');
             }
