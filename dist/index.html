@@ -39,6 +39,7 @@
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
         window.addEventListener('load', async function() {
+            console.log('Window load event triggered');
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
@@ -48,9 +49,13 @@
                 canvas.height = window.innerHeight;
 
                 // Directly initialize the WebAssembly module
+                console.log('Calling init function');
                 await init();
+                console.log('Init function completed');
                 const handle = new WebHandle();
+                console.log('WebHandle instance created');
                 await handle.start('the_canvas_id');
+                console.log('WebHandle start method completed');
             } else {
                 console.error('Failed to find canvas with id "the_canvas_id"');
             }
