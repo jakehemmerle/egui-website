@@ -20,12 +20,9 @@
             height: 100%;
         }
     </style>
-    <link rel="modulepreload" href="/egui_website-26da2c04182e6c6.js" crossorigin=anonymous integrity="sha384-h24FnWPCXpvR983lqcuke156n0Fo1kuPAVo3QyVzt0wVGwqe0VxKXHjwHPkCyVux">
-    <link rel="preload" href="/egui_website-26da2c04182e6c6_bg.wasm" crossorigin=anonymous integrity="sha384-m5ZurxGMXC48KG51KBUer+EtYamJ95EOfQo9kdOMqPLvl23Nuul1lnmuoEIWUZ7I" as="fetch" type="application/wasm">
 </head>
 <body>
     <div id="the_canvas_id"></div>
-    <!--
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -39,14 +36,14 @@
             });
         }
     </script>
-    -->
     <script type="module">
-        import init, { WebHandle } from './egui_website-26da2c04182e6c6.js';
+        import init, { WebHandle } from './egui_website.js';
         window.addEventListener('load', async function() {
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
