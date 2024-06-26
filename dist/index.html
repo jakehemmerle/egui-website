@@ -25,9 +25,10 @@
 </head>
 <body>
     <div id="the_canvas_id"></div>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
+    <script type="module">
+        import init, { WebHandle } from './egui_website.js';
+        document.addEventListener('DOMContentLoaded', async function() {
+            if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -35,17 +36,12 @@
                     // registration failed :(
                     console.log('ServiceWorker registration failed: ', err);
                 });
-            });
-        }
-    </script>
-    <script type="module">
-        import init, { WebHandle } from './egui_website.js';
-        window.addEventListener('load', async function() {
+            }
+
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
-                await new Promise(resolve => setTimeout(resolve, 2000)); // Increase delay before initializing the WebAssembly module
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
