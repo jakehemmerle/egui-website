@@ -837,6 +837,8 @@ dependencies = [
  "eframe",
  "egui 0.14.2",
  "env_logger",
+ "log",
+ "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
 

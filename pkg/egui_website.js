@@ -261,7 +261,7 @@ const WebHandleFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_webhandle_free(ptr >>> 0));
 /**
- */
+*/
 export class WebHandle {
 
     __destroy_into_raw() {
@@ -276,16 +276,16 @@ export class WebHandle {
         wasm.__wbg_webhandle_free(ptr);
     }
     /**
-     */
+    */
     constructor() {
         const ret = wasm.webhandle_new();
         this.__wbg_ptr = ret >>> 0;
         return this;
     }
     /**
-     * @param {string} canvas_id
-     * @returns {Promise<void>}
-     */
+    * @param {string} canvas_id
+    * @returns {Promise<void>}
+    */
     start(canvas_id) {
         const ptr0 = passStringToWasm0(canvas_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
@@ -293,20 +293,20 @@ export class WebHandle {
         return takeObject(ret);
     }
     /**
-     */
+    */
     destroy() {
         wasm.webhandle_destroy(this.__wbg_ptr);
     }
     /**
-     * @returns {boolean}
-     */
+    * @returns {boolean}
+    */
     has_panicked() {
         const ret = wasm.webhandle_has_panicked(this.__wbg_ptr);
         return ret !== 0;
     }
     /**
-     * @returns {string | undefined}
-     */
+    * @returns {string | undefined}
+    */
     panic_message() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -324,8 +324,8 @@ export class WebHandle {
         }
     }
     /**
-     * @returns {string | undefined}
-     */
+    * @returns {string | undefined}
+    */
     panic_callstack() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
