@@ -52,12 +52,9 @@ impl WebHandle {
 
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
-                let canvas_element = element.dyn_ref::<web_sys::HtmlCanvasElement>().unwrap();
-                canvas_element.set_width(window.inner_width().unwrap().as_f64().unwrap() as u32);
-                canvas_element.set_height(window.inner_height().unwrap().as_f64().unwrap() as u32);
-                let canvas_ready = canvas_element.is_instance_of::<web_sys::HtmlCanvasElement>();
-                log::info!("Canvas ready status: {}", canvas_ready);
-                if canvas_ready {
+                if let Some(canvas_element) = element.dyn_ref::<web_sys::HtmlCanvasElement>() {
+                    canvas_element.set_width(window.inner_width().unwrap().as_f64().unwrap() as u32);
+                    canvas_element.set_height(window.inner_height().unwrap().as_f64().unwrap() as u32);
                     log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
                     let web_options = eframe::WebOptions::default();
                     match self.runner
@@ -79,57 +76,8 @@ impl WebHandle {
                         }
                     }
                 } else {
-                    log::error!("Canvas with id: {} is not ready for rendering. Retrying...", canvas_id);
-                    // Retry mechanism using a loop with a delay to ensure the canvas is ready
-                    let retry_delay = 1000; // milliseconds
-                    let window = web_sys::window().unwrap();
-                    let mut retries = 0;
-                    loop {
-                        log::info!("Waiting for {} milliseconds before retrying... Attempt: {}", retry_delay, retries + 1);
-                        let promise = js_sys::Promise::new(&mut |resolve, _| {
-                            let closure = Closure::wrap(Box::new(move || {
-                                resolve.call0(&JsValue::NULL).unwrap();
-                            }) as Box<dyn Fn()>);
-                            window.set_timeout_with_callback_and_timeout_and_arguments_0(closure.as_ref().unchecked_ref(), retry_delay).unwrap();
-                            closure.forget();
-                        });
-                        wasm_bindgen_futures::JsFuture::from(promise).await.unwrap();
-
-                        let canvas = document.get_element_by_id(canvas_id);
-                        if let Some(element) = canvas {
-                            log::info!("Retrying... Canvas element attribute names: {:?}", element.get_attribute_names());
-                            log::info!("Retrying... Canvas element outer HTML: {}", element.outer_html());
-                            let canvas_ready = element.dyn_ref::<web_sys::HtmlCanvasElement>().is_some();
-                            log::info!("Retrying... Canvas ready status: {}", canvas_ready);
-                            if canvas_ready {
-                                log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
-                                let web_options = eframe::WebOptions::default();
-                                match self.runner
-                                    .start(
-                                        canvas_id,
-                                        web_options,
-                                        Box::new(|cc| Box::new(MyApp::default())),
-                                    )
-                                    .await {
-                                    Ok(_) => {
-                                        log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
-                                        return Ok(());
-                                    },
-                                    Err(e) => {
-                                        log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
-                                        log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
-                                        log::info!("Current DOM content at the time of error: {}", body.inner_html());
-                                        return Err(e);
-                                    }
-                                }
-                            }
-                        }
-                        retries += 1;
-                        if retries >= 10 {
-                            log::error!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id);
-                            return Err(wasm_bindgen::JsValue::from_str(&format!("Exceeded maximum retry attempts. Canvas with id: {} is not ready for rendering.", canvas_id)));
-                        }
-                    }
+                    log::error!("Failed to cast element to HtmlCanvasElement");
+                    Err(wasm_bindgen::JsValue::from_str("Failed to cast element to HtmlCanvasElement"))
                 }
             },
             None => {
