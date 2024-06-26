@@ -43,6 +43,9 @@ impl WebHandle {
         let body = document.body().unwrap();
         log::info!("Current DOM content: {}", body.inner_html());
 
+        // Introduce a delay to ensure the canvas element is fully available in the DOM
+        gloo::timers::future::TimeoutFuture::new(500).await;
+
         let canvas = document.get_element_by_id(canvas_id);
         match canvas {
             Some(element) => {
