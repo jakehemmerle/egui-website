@@ -41,7 +41,7 @@
         document.addEventListener('DOMContentLoaded', async function() {
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
-                await new Promise(resolve => setTimeout(resolve, 100)); // Add a delay before initializing the WebAssembly module
+                await new Promise(resolve => setTimeout(resolve, 500)); // Increase delay before initializing the WebAssembly module
                 await init();
                 const handle = new WebHandle();
                 await handle.start('the_canvas_id');
