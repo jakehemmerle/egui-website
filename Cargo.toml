@@ -5,7 +5,9 @@ edition = "2021"
 
 [dependencies]
 egui = "0.14"
-eframe = "0.14"
+eframe = "0.22.0"
+env_logger = "0.10.0"
+wasm-bindgen-futures = "0.4.32"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
