@@ -38,11 +38,31 @@ impl WebHandle {
     #[wasm_bindgen]
     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
         log::info!("Attempting to start egui application with canvas_id: {}", canvas_id);
-        let window = web_sys::window().unwrap();
+        let window = if let Some(window) = web_sys::window() {
+            window
+        } else {
+            log::error!("Failed to retrieve window object");
+            return Err(wasm_bindgen::JsValue::from_str("Failed to retrieve window object"));
+        };
+
         log::info!("Successfully retrieved window object");
-        let document = window.document().unwrap();
+
+        let document = if let Some(document) = window.document() {
+            document
+        } else {
+            log::error!("Failed to retrieve document object");
+            return Err(wasm_bindgen::JsValue::from_str("Failed to retrieve document object"));
+        };
+
         log::info!("Successfully retrieved document object");
-        let body = document.body().unwrap();
+
+        let body = if let Some(body) = document.body() {
+            body
+        } else {
+            log::error!("Failed to retrieve body element");
+            return Err(wasm_bindgen::JsValue::from_str("Failed to retrieve body element"));
+        };
+
         log::info!("Successfully retrieved body element");
         log::info!("Current DOM content: {}", body.inner_html());
 
