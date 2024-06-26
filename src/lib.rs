@@ -38,22 +38,33 @@ impl WebHandle {
     #[wasm_bindgen]
     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
         log::info!("Attempting to start egui application with canvas_id: {}", canvas_id);
-        match self.runner
-            .start(
-                canvas_id,
-                eframe::WebOptions::default(),
-                Box::new(|cc| Box::new(MyApp::default())),
-            )
-            .await {
-                Ok(_) => {
-                    log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
-                    Ok(())
-                },
-                Err(e) => {
-                    log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
-                    Err(e)
+        log::info!("Current DOM content: {}", web_sys::window().unwrap().document().unwrap().body().unwrap().inner_html());
+        let canvas = web_sys::window().unwrap().document().unwrap().get_element_by_id(canvas_id);
+        match canvas {
+            Some(_) => {
+                log::info!("Successfully found canvas with id: {}", canvas_id);
+                match self.runner
+                    .start(
+                        canvas_id,
+                        eframe::WebOptions::default(),
+                        Box::new(|cc| Box::new(MyApp::default())),
+                    )
+                    .await {
+                    Ok(_) => {
+                        log::info!("Successfully started egui application with canvas_id: {}", canvas_id);
+                        Ok(())
+                    },
+                    Err(e) => {
+                        log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
+                        Err(e)
+                    }
                 }
+            },
+            None => {
+                log::error!("Failed to find canvas with id: {}", canvas_id);
+                Err(wasm_bindgen::JsValue::from_str(&format!("Failed to find canvas with id: {}", canvas_id)))
             }
+        }
     }
 
     #[wasm_bindgen]
