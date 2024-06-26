@@ -38,11 +38,15 @@ impl WebHandle {
     #[wasm_bindgen]
     pub async fn start(&self, canvas_id: &str) -> Result<(), wasm_bindgen::JsValue> {
         log::info!("Attempting to start egui application with canvas_id: {}", canvas_id);
-        log::info!("Current DOM content: {}", web_sys::window().unwrap().document().unwrap().body().unwrap().inner_html());
-        let canvas = web_sys::window().unwrap().document().unwrap().get_element_by_id(canvas_id);
+        let window = web_sys::window().unwrap();
+        let document = window.document().unwrap();
+        let body = document.body().unwrap();
+        log::info!("Current DOM content: {}", body.inner_html());
+        let canvas = document.get_element_by_id(canvas_id);
         match canvas {
-            Some(_) => {
+            Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
+                log::info!("Canvas element attributes: {:?}", element.attributes());
                 match self.runner
                     .start(
                         canvas_id,
