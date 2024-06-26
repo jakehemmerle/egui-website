@@ -20,9 +20,9 @@
             height: 100%;
         }
     </style>
-
-<link rel="modulepreload" href="/egui_website-26da2c04182e6c6.js" crossorigin=anonymous integrity="sha384-h24FnWPCXpvR983lqcuke156n0Fo1kuPAVo3QyVzt0wVGwqe0VxKXHjwHPkCyVux">
-<link rel="preload" href="/egui_website-26da2c04182e6c6_bg.wasm" crossorigin=anonymous integrity="sha384-m5ZurxGMXC48KG51KBUer+EtYamJ95EOfQo9kdOMqPLvl23Nuul1lnmuoEIWUZ7I" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/egui_website-26da2c04182e6c6.js" crossorigin=anonymous integrity="sha384-h24FnWPCXpvR983lqcuke156n0Fo1kuPAVo3QyVzt0wVGwqe0VxKXHjwHPkCyVux">
+    <link rel="preload" href="/egui_website-26da2c04182e6c6_bg.wasm" crossorigin=anonymous integrity="sha384-m5ZurxGMXC48KG51KBUer+EtYamJ95EOfQo9kdOMqPLvl23Nuul1lnmuoEIWUZ7I" as="fetch" type="application/wasm">
+</head>
 <body>
     <div id="the_canvas_id"></div>
     <script>
@@ -54,16 +54,5 @@
             }
         });
     </script>
-
-<script type="module" nonce="GGVsRrpXAVPZu6VsGhnE8Q==">
-import init, * as bindings from '/egui_website-26da2c04182e6c6.js';
-const wasm = await init('/egui_website-26da2c04182e6c6_bg.wasm');
-
-
-window.wasmBindings = bindings;
-
-
-dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
-
-</script></body>
+</body>
 </html>
