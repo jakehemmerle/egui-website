@@ -6,3 +6,6 @@ edition = "2021"
 [dependencies]
 egui = "0.14"
 eframe = "0.14"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
