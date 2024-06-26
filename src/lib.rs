@@ -1,5 +1,7 @@
 use eframe::{egui};
 use egui::Context;
+use js_sys::Promise;
+use web_sys::{window, Window, Document, HtmlElement};
 
 mod game_of_life {
     pub mod grid;
