@@ -283,14 +283,21 @@ export class WebHandle {
         return this;
     }
     /**
-    * @param {string} canvas_id
-    * @returns {Promise<void>}
-    */
+     * @param {string} canvas_id
+     * @returns {Promise<void>}
+     */
     start(canvas_id) {
+        console.log('WebHandle start method called with canvas_id:', canvas_id);
         const ptr0 = passStringToWasm0(canvas_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.webhandle_start(this.__wbg_ptr, ptr0, len0);
-        return takeObject(ret);
+        try {
+            const ret = wasm.webhandle_start(this.__wbg_ptr, ptr0, len0);
+            console.log('WebHandle start method completed successfully');
+            return takeObject(ret);
+        } catch (e) {
+            console.error('WebHandle start method failed:', e);
+            throw e;
+        }
     }
     /**
     */
