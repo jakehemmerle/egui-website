@@ -189,8 +189,10 @@ impl eframe::App for MyApp {
         // Render the Game of Life in the background
         log::info!("Rendering Game of Life background...");
         game_of_life.update(ctx, _frame);
+        log::info!("Game of Life background rendered.");
 
         // Render the main content on top of the Game of Life background
+        log::info!("Rendering main content...");
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("Welcome to My Personal Website");
 
