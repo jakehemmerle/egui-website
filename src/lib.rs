@@ -1,11 +1,20 @@
 use eframe::{egui, epi};
 
+#[cfg(not(target_arch = "wasm32"))]
 fn main() {
     let options = eframe::NativeOptions::default();
     eframe::run_native(
         Box::new(MyApp::default()),
         options,
     );
+}
+
+#[cfg(target_arch = "wasm32")]
+fn main() {
+    eframe::start_web(
+        "the_canvas_id", // hardcode it
+        Box::new(MyApp::default()),
+    ).expect("failed to start eframe");
 }
 
 struct MyApp {
