@@ -41,13 +41,17 @@
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
         window.addEventListener('load', async function() {
+            console.log('Window load event triggered');
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
                 console.log('Canvas element found:', canvas);
                 console.log('Canvas element attributes:', canvas.getAttributeNames());
                 await init();
+                console.log('WebAssembly module initialized');
                 const handle = new WebHandle();
+                console.log('WebHandle instance created');
                 await handle.start('the_canvas_id');
+                console.log('WebHandle start method called');
             } else {
                 console.error('Failed to find canvas with id "the_canvas_id"');
             }
