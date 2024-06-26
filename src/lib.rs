@@ -71,6 +71,7 @@ impl WebHandle {
             },
             None => {
                 log::error!("Failed to find canvas with id: {}", canvas_id);
+                log::info!("Current DOM content at the time of error: {}", body.inner_html());
                 Err(wasm_bindgen::JsValue::from_str(&format!("Failed to find canvas with id: {}", canvas_id)))
             }
         }
