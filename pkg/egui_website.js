@@ -20,6 +20,16 @@ function takeObject(idx) {
     return ret;
 }
 
+import init, { WebHandle } from './egui_website.js';
+
+async function run() {
+    await init();
+    const handle = new WebHandle();
+    await handle.start('the_canvas_id');
+}
+
+run().catch(console.error);
+
 const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
 
 if (typeof TextDecoder !== 'undefined') { cachedTextDecoder.decode(); };
@@ -124,29 +134,6 @@ function passStringToWasm0(arg, malloc, realloc) {
     WASM_VECTOR_LEN = offset;
     return ptr;
 }
-
-async function init(input) {
-    if (typeof input === 'undefined') {
-        input = new URL('egui_website_bg.wasm', import.meta.url);
-    }
-    const imports = __wbg_get_imports();
-
-    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
-        input = fetch(input);
-    }
-
-    const { instance, module } = await __wbg_load(await input, imports);
-
-    wasm = instance.exports;
-    init.__wbindgen_wasm_module = module;
-
-    const handle = new WebHandle();
-    await handle.start('the_canvas_id');
-
-    return wasm;
-}
-
-export default init;
 
 function debugString(val) {
     // primitive types
@@ -1505,4 +1492,4 @@ async function __wbg_init(input) {
 }
 
 export { initSync }
-export { __wbg_init };
+export default __wbg_init;
