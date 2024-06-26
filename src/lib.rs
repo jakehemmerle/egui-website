@@ -53,6 +53,7 @@ impl WebHandle {
             Some(element) => {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
                 log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
+                log::info!("Canvas element outer HTML: {}", element.outer_html());
                 log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
                 match self.runner
                     .start(
