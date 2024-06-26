@@ -102,11 +102,15 @@ impl WebHandle {
                     log::info!("Canvas is ready for rendering. Attempting to start WebRunner with canvas_id: {}", canvas_id);
                     let web_options = eframe::WebOptions::default();
                     log::info!("WebOptions created");
+
+                    log::info!("Creating MyApp instance using MyApp::default()");
+                    let app = MyApp::default();
+                    log::info!("MyApp instance created successfully");
                     match self.runner
                         .start(
                             canvas_id,
                             web_options,
-                            Box::new(|cc| Box::new(MyApp::default())),
+                            Box::new(|cc| Box::new(app)),
                         )
                         .await {
                         Ok(_) => {
