@@ -1,7 +1,7 @@
+use wasm_bindgen_futures::js_sys::Promise;
+use web_sys::{window, Window, Document, HtmlElement};
 use eframe::{egui};
 use egui::Context;
-use wasm_bindgen_futures::js_sys::Promise;
-use eframe::web_sys::{window, Window, Document, HtmlElement};
 
 mod game_of_life {
     pub mod grid;
