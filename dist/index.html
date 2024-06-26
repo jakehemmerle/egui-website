@@ -47,22 +47,10 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
 
-                const observer = new MutationObserver(async (mutationsList, observer) => {
-                    for (const mutation of mutationsList) {
-                        if (mutation.type === 'attributes' && mutation.attributeName === 'width') {
-                            console.log('Canvas width attribute changed:', canvas.width);
-                            observer.disconnect();
-                            await init();
-                            const handle = new WebHandle();
-                            await handle.start('the_canvas_id');
-                        }
-                    }
-                });
-
-                observer.observe(canvas, { attributes: true });
-
-                // Trigger a mutation by setting the width attribute
-                canvas.setAttribute('width', canvas.width);
+                // Directly initialize the WebAssembly module
+                await init();
+                const handle = new WebHandle();
+                await handle.start('the_canvas_id');
             } else {
                 console.error('Failed to find canvas with id "the_canvas_id"');
             }
