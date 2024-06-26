@@ -27,7 +27,7 @@
     <div id="the_canvas_id"></div>
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
-        document.addEventListener('DOMContentLoaded', async function() {
+        window.addEventListener('load', async function() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
                     // Registration was successful
