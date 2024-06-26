@@ -50,6 +50,7 @@ impl WebHandle {
                 wasm_bindgen_futures::JsFuture::from(js_sys::Promise::new(&mut |resolve, _| {
                     resolve.call0(&JsValue::NULL).unwrap();
                 })).await.unwrap();
+                log::info!("Attempting to start WebRunner with canvas_id: {}", canvas_id);
                 match self.runner
                     .start(
                         canvas_id,
@@ -64,6 +65,7 @@ impl WebHandle {
                     Err(e) => {
                         log::error!("Failed to start egui application with canvas_id: {}. Error: {:?}", canvas_id, e);
                         log::info!("Canvas element at the time of error: {:?}", document.get_element_by_id(canvas_id));
+                        log::info!("WebRunner state at the time of error: {:?}", self.runner);
                         Err(e)
                     }
                 }
