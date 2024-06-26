@@ -20,15 +20,15 @@
             height: 100%;
         }
     </style>
-    <link rel="modulepreload" href="/egui_website-223241bea809ea04.js">
-    <link rel="preload" href="/egui_website-223241bea809ea04_bg.wasm" as="fetch" type="application/wasm">
+    <link rel="modulepreload" href="egui_website-223241bea809ea04.js">
+    <link rel="preload" href="egui_website-223241bea809ea04_bg.wasm" as="fetch" type="application/wasm">
 </head>
 <body>
     <div id="the_canvas_id"></div>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
+                navigator.serviceWorker.register('service_worker.js').then(function(registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
