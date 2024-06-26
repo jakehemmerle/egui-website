@@ -26,9 +26,14 @@
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
         document.addEventListener('DOMContentLoaded', async function() {
-            await init();
-            const handle = new WebHandle();
-            await handle.start('the_canvas_id');
+            const canvas = document.getElementById('the_canvas_id');
+            if (canvas) {
+                await init();
+                const handle = new WebHandle();
+                await handle.start('the_canvas_id');
+            } else {
+                console.error('Failed to find canvas with id "the_canvas_id"');
+            }
         });
     </script>
     <script>
