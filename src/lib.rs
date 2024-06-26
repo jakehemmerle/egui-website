@@ -54,8 +54,13 @@ impl WebHandle {
                 log::info!("Checking if canvas is ready for rendering...");
                 if let Some(canvas_element) = element.dyn_ref::<web_sys::HtmlCanvasElement>() {
                     if let (Some(inner_width), Some(inner_height)) = (window.inner_width().ok(), window.inner_height().ok()) {
-                        canvas_element.set_width(inner_width.as_f64().unwrap() as u32);
-                        canvas_element.set_height(inner_height.as_f64().unwrap() as u32);
+                        if let (Some(width), Some(height)) = (inner_width.as_f64(), inner_height.as_f64()) {
+                            canvas_element.set_width(width as u32);
+                            canvas_element.set_height(height as u32);
+                        } else {
+                            log::error!("Failed to convert window dimensions to f64");
+                            return Err(wasm_bindgen::JsValue::from_str("Failed to convert window dimensions to f64"));
+                        }
                     } else {
                         log::error!("Failed to get window dimensions");
                         return Err(wasm_bindgen::JsValue::from_str("Failed to get window dimensions"));
