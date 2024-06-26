@@ -372,7 +372,7 @@ async function __wbg_load(module, imports) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('/egui_website_bg.wasm', window.location.origin);
+        input = new URL('/dist/egui_website_bg.wasm', window.location.origin);
     }
     const imports = __wbg_get_imports();
     const { instance, module } = await __wbg_load(await input, imports);
