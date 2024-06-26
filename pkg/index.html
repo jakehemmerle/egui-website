@@ -25,12 +25,11 @@
     <div id="the_canvas_id"></div>
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
-        async function run() {
+        document.addEventListener('DOMContentLoaded', async function() {
             await init();
             const handle = new WebHandle();
             await handle.start('the_canvas_id');
-        }
-        run();
+        });
     </script>
     <script>
         if ('serviceWorker' in navigator) {
