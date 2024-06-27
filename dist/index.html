@@ -27,16 +27,16 @@
     <div id="the_canvas_id"></div>
     <script type="module">
         import init, { WebHandle } from './egui_website.js';
-        window.addEventListener('load', async function() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            }
+        document.addEventListener('DOMContentLoaded', async function() {
+            // if ('serviceWorker' in navigator) {
+            //     navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
+            //         // Registration was successful
+            //         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            //     }, function(err) {
+            //         // registration failed :(
+            //         console.log('ServiceWorker registration failed: ', err);
+            //     });
+            // }
 
             const canvas = document.getElementById('the_canvas_id');
             if (canvas) {
