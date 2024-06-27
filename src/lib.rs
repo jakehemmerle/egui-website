@@ -79,6 +79,7 @@ impl WebHandle {
                 log::info!("Successfully found canvas with id: {}", canvas_id);
                 log::info!("Canvas element attribute names: {:?}", element.get_attribute_names());
                 log::info!("Canvas element outer HTML: {}", element.outer_html());
+                log::info!("Canvas element tag name: {}", element.tag_name());
 
                 // Ensure the canvas is fully loaded and ready for rendering
                 log::info!("Checking if canvas is ready for rendering...");
@@ -125,7 +126,7 @@ impl WebHandle {
                         }
                     }
                 } else {
-                    log::error!("Failed to cast element to HtmlCanvasElement");
+                    log::error!("Failed to cast element to HtmlCanvasElement. Element type: {}", element.node_name());
                     Err(wasm_bindgen::JsValue::from_str("Failed to cast element to HtmlCanvasElement"))
                 }
             },
@@ -194,45 +195,61 @@ impl eframe::App for MyApp {
             ui.heading("Welcome to My Personal Website");
 
             // Theme toggle button
+            log::info!("Rendering theme toggle button...");
             if ui.button("Toggle Theme").clicked() {
                 *dark_mode = !*dark_mode;
                 log::info!("Theme toggled. Dark mode: {}", dark_mode);
             }
+            log::info!("Theme toggle button rendered.");
 
+            log::info!("Rendering Blockchain and Rust Work section...");
             ui.horizontal(|ui| {
                 ui.label("Blockchain and Rust Work:");
                 ui.label("I have been working on various blockchain projects using Rust. I have contributed to several open-source projects and have a deep understanding of blockchain technology.");
             });
+            log::info!("Blockchain and Rust Work section rendered.");
 
+            log::info!("Rendering WebAssembly Projects section...");
             ui.horizontal(|ui| {
                 ui.label("WebAssembly Projects:");
                 ui.label("I have developed multiple WebAssembly projects, showcasing my expertise in this area. I have created efficient and high-performance applications using WebAssembly.");
             });
+            log::info!("WebAssembly Projects section rendered.");
 
+            log::info!("Rendering BASE Jumping section...");
             ui.horizontal(|ui| {
                 ui.label("BASE Jumping:");
                 ui.label("I am an avid BASE jumper and enjoy the thrill of this extreme sport. I have completed numerous jumps and continue to pursue this passion.");
             });
+            log::info!("BASE Jumping section rendered.");
 
+            log::info!("Rendering Reading List section...");
             ui.horizontal(|ui| {
                 ui.label("Reading List:");
                 ui.label("I am an avid reader and enjoy exploring various genres. I frequently update my reading list and share my thoughts on the books I read.");
             });
+            log::info!("Reading List section rendered.");
 
+            log::info!("Rendering Blog Posts section...");
             ui.horizontal(|ui| {
                 ui.label("Blog Posts:");
                 ui.label("I write blog posts on various topics, including technology, personal experiences, and more. Stay tuned for my latest updates.");
             });
+            log::info!("Blog Posts section rendered.");
 
+            log::info!("Rendering Goodreads section...");
             ui.horizontal(|ui| {
                 ui.label("Goodreads:");
                 ui.hyperlink("https://www.goodreads.com/user/show/12345678-jake-hemmerle");
             });
+            log::info!("Goodreads section rendered.");
 
+            log::info!("Rendering Instagram section...");
             ui.horizontal(|ui| {
                 ui.label("Instagram:");
                 ui.hyperlink("https://www.instagram.com/sends.and.friends/");
             });
+            log::info!("Instagram section rendered.");
         });
         log::info!("Main content rendered.");
         ctx.request_repaint();
