@@ -175,6 +175,8 @@ impl Default for MyApp {
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
+        log::info!("Entering update method");
+
         let MyApp { dark_mode, game_of_life } = self;
 
         // Define color schemes
